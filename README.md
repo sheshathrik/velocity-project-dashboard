@@ -2,7 +2,19 @@
 
 A full-stack, enterprise-grade web application built for the **Velozity Global Solutions Technical Hiring Assessment**.
 
-The application provides real-time agency project management, Kanban task velocity tracking, strict API-level role-based access control (RBAC), WebSocket live presence and activity feeds, background overdue task automation, and URL-shareable query filters.
+[![Live App on Vercel](https://img.shields.io/badge/Live%20Demo-Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://velocity-project-dashboard.vercel.app)
+[![Backend API on Render](https://img.shields.io/badge/Backend%20API-Render-46E3B7?style=for-the-badge&logo=render&logoColor=white)](https://velocity-project-dashboard.onrender.com)
+[![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
+
+---
+
+## 🌐 Live Production Deployments
+
+- 🖥️ **Live Web Application (Vercel)**: **[https://velocity-project-dashboard.vercel.app](https://velocity-project-dashboard.vercel.app)**
+- ⚡ **Live Backend API (Render)**: **[https://velocity-project-dashboard.onrender.com](https://velocity-project-dashboard.onrender.com)**
+- 🩺 **API Health Check**: **[https://velocity-project-dashboard.onrender.com/health](https://velocity-project-dashboard.onrender.com/health)**
+- 📁 **GitHub Repository**: **[https://github.com/sheshathrik/velocity-project-dashboard](https://github.com/sheshathrik/velocity-project-dashboard)**
 
 ---
 
