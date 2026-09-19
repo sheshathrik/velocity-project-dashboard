@@ -78,7 +78,8 @@ export const SocketProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     refreshActivities();
 
     // Establish pure WebSocket connection
-    const newSocket = io('/', {
+    const socketUrl = import.meta.env.VITE_API_URL || '/';
+    const newSocket = io(socketUrl, {
       transports: ['websocket'], // Strictly pure WebSocket — no polling
       auth: { token },
       reconnectionAttempts: 10,
@@ -102,12 +103,22 @@ export const SocketProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 
     // 2. Real-time Live Activity Feed
     newSocket.on('activity:new', (newActivity: TaskActivityLog) => {
-      setActivities((prev) => [newActivity, ...prev.slice(0, 49)]);
+      setActivities((prev) => {
+        if (prev.some((a) => a.id === newActivity.id)) {
+          return prev;
+        }
+        return [newActivity, ...prev.slice(0, 49)];
+      });
     });
 
     // 3. Real-time In-App Notifications
     newSocket.on('notification:new', (newNotification: Notification) => {
-      setNotifications((prev) => [newNotification, ...prev]);
+      setNotifications((prev) => {
+        if (prev.some((n) => n.id === newNotification.id)) {
+          return prev;
+        }
+        return [newNotification, ...prev];
+      });
       setUnreadNotificationCount((prev) => prev + 1);
     });
 

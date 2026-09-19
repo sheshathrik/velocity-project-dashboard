@@ -21,20 +21,17 @@ export const socketEmitter = {
         task,
       });
 
-      // 2. Broadcast activity log according to role permissions
+      // 2. Broadcast activity log according to strict role permissions:
       // Admin sees all activity in global feed
       io.to('role:ADMIN').emit('activity:new', activityLog);
 
       // PM sees activity for their projects
       io.to(`user:${project.managerId}`).emit('activity:new', activityLog);
 
-      // Developer sees activity only if assigned to this task
+      // Developer sees activity strictly only if assigned to this task
       if (task.assignedDeveloperId) {
         io.to(`user:${task.assignedDeveloperId}`).emit('activity:new', activityLog);
       }
-
-      // Also send to the project room for users currently viewing this project
-      io.to(`project:${project.id}`).emit('activity:new', activityLog);
 
       // 3. Send in-app notification if created (e.g. PM notified for In Review)
       if (notification) {
@@ -70,8 +67,6 @@ export const socketEmitter = {
       if (task.assignedDeveloperId) {
         io.to(`user:${task.assignedDeveloperId}`).emit('activity:new', activityLog);
       }
-
-      io.to(`project:${project.id}`).emit('activity:new', activityLog);
 
       // Direct notification to assigned developer
       if (notification && task.assignedDeveloperId) {

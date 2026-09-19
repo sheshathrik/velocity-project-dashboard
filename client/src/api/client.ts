@@ -12,6 +12,8 @@ interface RequestOptions extends RequestInit {
   retry?: boolean;
 }
 
+const API_BASE = import.meta.env.VITE_API_URL || '';
+
 export async function apiFetch<T>(endpoint: string, options: RequestOptions = {}): Promise<T> {
   const headers = new Headers(options.headers || {});
   if (!headers.has('Content-Type') && !(options.body instanceof FormData)) {
@@ -26,12 +28,13 @@ export async function apiFetch<T>(endpoint: string, options: RequestOptions = {}
   options.credentials = 'include';
   options.headers = headers;
 
-  const response = await fetch(endpoint, options);
+  const url = endpoint.startsWith('http') ? endpoint : `${API_BASE}${endpoint}`;
+  const response = await fetch(url, options);
 
   // If 401 and not already retried, attempt refresh token flow
   if (response.status === 401 && !options.retry && !endpoint.includes('/auth/login') && !endpoint.includes('/auth/refresh')) {
     try {
-      const refreshRes = await fetch('/api/auth/refresh', {
+      const refreshRes = await fetch(`${API_BASE}/api/auth/refresh`, {
         method: 'POST',
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
