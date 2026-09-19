@@ -28,3 +28,4 @@ bootstrap().catch((err) => {
   console.error('Fatal initialization error:', err);
   process.exit(1);
 });
+

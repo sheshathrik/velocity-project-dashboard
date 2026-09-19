@@ -98,3 +98,4 @@ export function broadcastPresenceUpdate(): void {
   // Broadcast presence count to all users or admins
   io.emit('presence:update', { activeUsersCount: count });
 }
+

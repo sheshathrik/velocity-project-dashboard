@@ -107,3 +107,4 @@ export const ActivityFeed: React.FC<ActivityFeedProps> = ({
     </div>
   );
 };
+

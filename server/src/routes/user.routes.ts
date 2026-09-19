@@ -26,3 +26,4 @@ router.get(
 router.get('/', authorizeRoles(Role.ADMIN), userController.getAllUsers);
 
 export default router;
+

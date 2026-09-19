@@ -56,3 +56,4 @@ export const notificationService = {
     return { message: 'All notifications marked as read' };
   },
 };
+

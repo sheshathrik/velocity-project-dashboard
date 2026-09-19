@@ -226,3 +226,4 @@ export const ProjectDetails: React.FC = () => {
     </div>
   );
 };
+

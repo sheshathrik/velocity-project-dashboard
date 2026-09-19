@@ -12,3 +12,4 @@ router.use(authenticateJWT);
 router.get('/', validateRequest({ query: activityQuerySchema }), activityController.getRecent);
 
 export default router;
+

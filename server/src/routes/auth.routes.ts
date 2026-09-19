@@ -12,3 +12,4 @@ router.post('/logout', authController.logout);
 router.get('/me', authenticateJWT, authController.getMe);
 
 export default router;
+

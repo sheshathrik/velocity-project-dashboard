@@ -11,3 +11,4 @@ router.patch('/:id/read', notificationController.markRead);
 router.post('/mark-all-read', notificationController.markAllRead);
 
 export default router;
+

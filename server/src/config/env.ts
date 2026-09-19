@@ -4,7 +4,7 @@ import { z } from 'zod';
 dotenv.config();
 
 const envSchema = z.object({
-  PORT: z.coerce.number().default(5000),
+  PORT: z.coerce.number().default(5001),
   NODE_ENV: z.enum(['development', 'production', 'test']).default('development'),
   DATABASE_URL: z.string().min(1, 'DATABASE_URL is required'),
   CLIENT_URL: z.string().default('http://localhost:5173'),
@@ -22,3 +22,4 @@ if (!parsed.success) {
 }
 
 export const env = parsed.data;
+

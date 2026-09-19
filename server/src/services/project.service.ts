@@ -196,3 +196,4 @@ export const projectService = {
     return { message: 'Project deleted successfully' };
   },
 };
+

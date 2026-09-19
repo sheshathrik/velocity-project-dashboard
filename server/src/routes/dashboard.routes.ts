@@ -9,3 +9,4 @@ router.use(authenticateJWT);
 router.get('/metrics', dashboardController.getMetrics);
 
 export default router;
+
