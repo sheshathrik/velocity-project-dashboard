@@ -7,6 +7,7 @@ import { Project, Task, TaskStatus } from '../types/index.js';
 import { TaskCard } from '../components/TaskCard.js';
 import { ActivityFeed } from '../components/ActivityFeed.js';
 import { CreateTaskModal } from '../components/CreateTaskModal.js';
+import { TaskDetailsModal } from '../components/TaskDetailsModal.js';
 import {
   ArrowLeft,
   Plus,
@@ -36,6 +37,7 @@ export const ProjectDetails: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
   const [isTaskModalOpen, setIsTaskModalOpen] = useState(false);
+  const [selectedTaskId, setSelectedTaskId] = useState<number | null>(null);
 
   useEffect(() => {
     if (!id) return;
@@ -188,6 +190,7 @@ export const ProjectDetails: React.FC = () => {
                       <TaskCard
                         key={task.id}
                         task={task}
+                        onViewDetails={(t) => setSelectedTaskId(t.id)}
                         onStatusUpdated={(updated) => {
                           setTasks((prev) =>
                             prev.map((t) => (t.id === updated.id ? updated : t))
@@ -209,8 +212,20 @@ export const ProjectDetails: React.FC = () => {
           title={`Activity Stream: ${project.name}`}
           projectId={project.id}
           maxHeight="max-h-[350px]"
+          onSelectTask={(taskId) => setSelectedTaskId(taskId)}
         />
       </div>
+
+      {/* Task Details Modal */}
+      <TaskDetailsModal
+        taskId={selectedTaskId}
+        onClose={() => setSelectedTaskId(null)}
+        onStatusUpdated={(updated) => {
+          setTasks((prev) =>
+            prev.map((t) => (t.id === updated.id ? { ...t, ...updated } : t))
+          );
+        }}
+      />
 
       {/* Task Creation Modal */}
       {id && (

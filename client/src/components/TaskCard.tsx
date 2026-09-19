@@ -16,12 +16,14 @@ import {
 interface TaskCardProps {
   task: Task;
   onStatusUpdated?: (updatedTask: Task) => void;
+  onViewDetails?: (task: Task) => void;
   showProjectBadge?: boolean;
 }
 
 export const TaskCard: React.FC<TaskCardProps> = ({
   task,
   onStatusUpdated,
+  onViewDetails,
   showProjectBadge = false,
 }) => {
   const { user } = useAuth();
@@ -78,7 +80,10 @@ export const TaskCard: React.FC<TaskCardProps> = ({
     (user?.role === 'DEVELOPER' && task.assignedDeveloperId === user.id);
 
   return (
-    <div className="bg-slate-900/90 border border-slate-800 hover:border-slate-700 rounded-2xl p-4 shadow-lg hover:shadow-cyan-500/5 transition-all flex flex-col justify-between group">
+    <div
+      onClick={() => onViewDetails && onViewDetails(task)}
+      className="bg-slate-900/90 border border-slate-800 hover:border-cyan-500/50 rounded-2xl p-4 shadow-lg hover:shadow-cyan-500/10 transition-all flex flex-col justify-between group cursor-pointer"
+    >
       <div>
         {/* Top Badges: Project, Priority, Overdue */}
         <div className="flex items-center justify-between gap-2 mb-2.5">
@@ -148,11 +153,14 @@ export const TaskCard: React.FC<TaskCardProps> = ({
           </span>
 
           {canChangeStatus ? (
-            <div className="relative">
+            <div className="relative" onClick={(e) => e.stopPropagation()}>
               <select
                 disabled={isUpdating}
                 value={task.status}
-                onChange={(e) => handleStatusChange(e.target.value as TaskStatus)}
+                onChange={(e) => {
+                  e.stopPropagation();
+                  handleStatusChange(e.target.value as TaskStatus);
+                }}
                 className={`text-xs font-semibold rounded-lg px-2.5 py-1 border cursor-pointer focus:outline-none focus:ring-2 focus:ring-cyan-500 transition-all ${getStatusBadgeColor(
                   task.status
                 )} ${isUpdating ? 'opacity-50' : ''}`}

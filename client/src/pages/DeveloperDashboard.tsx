@@ -7,6 +7,7 @@ import { DeveloperMetrics, Task } from '../types/index.js';
 import { ActivityFeed } from '../components/ActivityFeed.js';
 import { TaskFilters } from '../components/TaskFilters.js';
 import { TaskCard } from '../components/TaskCard.js';
+import { TaskDetailsModal } from '../components/TaskDetailsModal.js';
 import {
   Code2,
   CheckCircle2,
@@ -21,8 +22,9 @@ export const DeveloperDashboard: React.FC = () => {
   const [metrics, setMetrics] = useState<DeveloperMetrics | null>(null);
   const [tasks, setTasks] = useState<Task[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [selectedTaskId, setSelectedTaskId] = useState<number | null>(null);
   const { setTaskUpdateListener } = useSocket();
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const loadData = async () => {
     try {
@@ -84,9 +86,18 @@ export const DeveloperDashboard: React.FC = () => {
 
       {/* Metrics Row */}
       <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
-        <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl">
+        {/* Total Assigned */}
+        <div
+          onClick={() => {
+            const p = new URLSearchParams();
+            setSearchParams(p);
+          }}
+          className="bg-slate-900 border border-slate-800 hover:border-blue-500/50 rounded-2xl p-5 shadow-xl cursor-pointer transition-all hover:scale-[1.02] group"
+        >
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-slate-400">Total Assigned</span>
+            <span className="text-xs font-semibold text-slate-400 group-hover:text-blue-400 transition-colors">
+              Total Assigned
+            </span>
             <div className="p-2 rounded-xl bg-blue-500/10 text-blue-400 border border-blue-500/20">
               <Code2 className="w-4 h-4" />
             </div>
@@ -97,11 +108,22 @@ export const DeveloperDashboard: React.FC = () => {
             </span>
             <span className="text-xs text-slate-500">tickets</span>
           </div>
+          <p className="mt-2 text-[10px] text-blue-400 font-medium">Click to show all tasks</p>
         </div>
 
-        <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl">
+        {/* In Flight / Pending */}
+        <div
+          onClick={() => {
+            const p = new URLSearchParams(searchParams);
+            p.set('status', 'IN_PROGRESS');
+            setSearchParams(p);
+          }}
+          className="bg-slate-900 border border-slate-800 hover:border-cyan-500/50 rounded-2xl p-5 shadow-xl cursor-pointer transition-all hover:scale-[1.02] group"
+        >
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-slate-400">In Flight / Pending</span>
+            <span className="text-xs font-semibold text-slate-400 group-hover:text-cyan-400 transition-colors">
+              In Flight / Pending
+            </span>
             <div className="p-2 rounded-xl bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
               <Clock className="w-4 h-4" />
             </div>
@@ -112,11 +134,22 @@ export const DeveloperDashboard: React.FC = () => {
             </span>
             <span className="text-xs text-slate-500">active tasks</span>
           </div>
+          <p className="mt-2 text-[10px] text-cyan-400 font-medium">Click to filter in-progress</p>
         </div>
 
-        <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl">
+        {/* Overdue Deliverables */}
+        <div
+          onClick={() => {
+            const p = new URLSearchParams(searchParams);
+            p.set('dueDateRange', 'overdue');
+            setSearchParams(p);
+          }}
+          className="bg-slate-900 border border-slate-800 hover:border-rose-500/50 rounded-2xl p-5 shadow-xl cursor-pointer transition-all hover:scale-[1.02] group"
+        >
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-slate-400">Overdue Deliverables</span>
+            <span className="text-xs font-semibold text-slate-400 group-hover:text-rose-400 transition-colors">
+              Overdue Deliverables
+            </span>
             <div className="p-2 rounded-xl bg-rose-500/10 text-rose-400 border border-rose-500/20">
               <AlertTriangle className="w-4 h-4" />
             </div>
@@ -127,11 +160,22 @@ export const DeveloperDashboard: React.FC = () => {
             </span>
             <span className="text-xs text-slate-500">requires attention</span>
           </div>
+          <p className="mt-2 text-[10px] text-rose-400 font-medium">Click to filter overdue tasks</p>
         </div>
 
-        <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl">
+        {/* Completed */}
+        <div
+          onClick={() => {
+            const p = new URLSearchParams(searchParams);
+            p.set('status', 'DONE');
+            setSearchParams(p);
+          }}
+          className="bg-slate-900 border border-slate-800 hover:border-emerald-500/50 rounded-2xl p-5 shadow-xl cursor-pointer transition-all hover:scale-[1.02] group"
+        >
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-slate-400">Completed</span>
+            <span className="text-xs font-semibold text-slate-400 group-hover:text-emerald-400 transition-colors">
+              Completed
+            </span>
             <div className="p-2 rounded-xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
               <CheckCircle2 className="w-4 h-4" />
             </div>
@@ -142,6 +186,7 @@ export const DeveloperDashboard: React.FC = () => {
             </span>
             <span className="text-xs text-slate-500">shipped to prod</span>
           </div>
+          <p className="mt-2 text-[10px] text-emerald-400 font-medium">Click to filter completed</p>
         </div>
       </div>
 
@@ -167,6 +212,7 @@ export const DeveloperDashboard: React.FC = () => {
                   key={task.id}
                   task={task}
                   showProjectBadge
+                  onViewDetails={(t) => setSelectedTaskId(t.id)}
                   onStatusUpdated={(updated) => {
                     setTasks((prev) =>
                       prev.map((t) => (t.id === updated.id ? updated : t))
@@ -180,9 +226,23 @@ export const DeveloperDashboard: React.FC = () => {
 
         {/* Assigned Tasks Activity Feed */}
         <div className="lg:col-span-1">
-          <ActivityFeed title="Your Task Activity" />
+          <ActivityFeed
+            title="Your Task Activity"
+            onSelectTask={(id) => setSelectedTaskId(id)}
+          />
         </div>
       </div>
+
+      {/* Task Details Modal */}
+      <TaskDetailsModal
+        taskId={selectedTaskId}
+        onClose={() => setSelectedTaskId(null)}
+        onStatusUpdated={(updated) => {
+          setTasks((prev) =>
+            prev.map((t) => (t.id === updated.id ? { ...t, ...updated } : t))
+          );
+        }}
+      />
     </div>
   );
 };

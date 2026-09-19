@@ -9,12 +9,14 @@ interface ActivityFeedProps {
   title?: string;
   projectId?: string;
   maxHeight?: string;
+  onSelectTask?: (taskId: number) => void;
 }
 
 export const ActivityFeed: React.FC<ActivityFeedProps> = ({
   title = 'Live Activity Feed',
   projectId,
   maxHeight = 'max-h-[500px]',
+  onSelectTask,
 }) => {
   const { activities, isConnected } = useSocket();
   const { user } = useAuth();
@@ -87,18 +89,28 @@ export const ActivityFeed: React.FC<ActivityFeedProps> = ({
           filteredActivities.map((log) => (
             <div
               key={log.id}
-              className="flex items-start space-x-3 p-3 rounded-xl bg-slate-800/40 border border-slate-800 hover:border-slate-700/80 transition-colors"
+              onClick={() => log.taskId && onSelectTask && onSelectTask(log.taskId)}
+              className={`flex items-start space-x-3 p-3 rounded-xl bg-slate-800/40 border border-slate-800 hover:border-slate-700/80 transition-colors ${
+                log.taskId && onSelectTask ? 'cursor-pointer hover:bg-slate-800/70' : ''
+              }`}
             >
               <div className="mt-0.5 p-1 rounded-md bg-slate-800 border border-slate-700/60 flex-shrink-0">
                 {getActivityIcon(log.type)}
               </div>
               <div className="flex-1 min-w-0">
                 {formatActivityMessage(log)}
-                {log.project && !projectId && (
-                  <span className="inline-block mt-1 text-[10px] px-2 py-0.5 rounded bg-slate-800 text-cyan-400 font-medium">
-                    {log.project.name}
-                  </span>
-                )}
+                <div className="flex items-center space-x-2 mt-1">
+                  {log.project && !projectId && (
+                    <span className="text-[10px] px-2 py-0.5 rounded bg-slate-800 text-cyan-400 font-medium">
+                      {log.project.name}
+                    </span>
+                  )}
+                  {log.taskId && onSelectTask && (
+                    <span className="text-[10px] text-slate-500 hover:text-cyan-300">
+                      Click to view task details →
+                    </span>
+                  )}
+                </div>
               </div>
             </div>
           ))
