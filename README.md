@@ -47,12 +47,15 @@ flowchart TD
         Tables[("Users, Projects, Tasks, Logs, Notifications, RefreshTokens")]
     end
 
-    UI -->|Bearer Auth & HttpOnly Cookie| REST
-    UI <-->|Pure WebSocket Protocol| SocketServer
-    REST --> AuthMid --> ZodVal --> Prisma --> Tables
-    CronJob -->|Periodic Scan (lt: NOW, not: DONE)| Prisma
-    CronJob -->|Broadcast Overdue Events| SocketServer
-    SocketServer -->|Real-Time Feed & Live Presence| SocketCtx
+    UI -->|"Bearer Auth & HttpOnly Cookie"| REST
+    UI <-->|"Pure WebSocket Protocol"| SocketServer
+    REST --> AuthMid
+    AuthMid --> ZodVal
+    ZodVal --> Prisma
+    Prisma --> Tables
+    CronJob -->|"Periodic Overdue Scan (Every 1m)"| Prisma
+    CronJob -->|"Broadcast Overdue Events"| SocketServer
+    SocketServer -->|"Real-Time Feed & Live Presence"| SocketCtx
 ```
 
 ---
