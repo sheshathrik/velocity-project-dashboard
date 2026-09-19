@@ -79,16 +79,18 @@ flowchart TD
 1. Ensure Docker Desktop is installed and running.
 2. Clone the repository and navigate into the folder:
    ```bash
-   git clone <repo-url>
-   cd Velocity
+   git clone https://github.com/sheshathrik/velocity-project-dashboard.git
+   cd velocity-project-dashboard
    ```
 3. Launch all services with Docker Compose:
    ```bash
    docker-compose up --build
    ```
 4. Access the applications:
-   - **Frontend UI**: [http://localhost:3000](http://localhost:3000)
-   - **Backend API**: [http://localhost:5000](http://localhost:5000)
+   - 🖥️ **Live Production Frontend (Vercel)**: [https://velocity-project-dashboard.vercel.app](https://velocity-project-dashboard.vercel.app)
+   - ⚙️ **Live Production Backend API (Render)**: [https://velocity-project-dashboard.onrender.com](https://velocity-project-dashboard.onrender.com)
+   - 🏠 **Local Docker Frontend UI**: [http://localhost:3000](http://localhost:3000)
+   - 🔌 **Local Docker Backend API**: [http://localhost:5000](http://localhost:5000)
 
 ---
 
@@ -131,8 +133,10 @@ cd ..
 # In the repository root, run both backend & frontend concurrently:
 npm run dev
 ```
-- Frontend: `http://localhost:5173`
-- Backend API: `http://localhost:5000`
+- 🖥️ **Live Production Frontend (Vercel)**: [https://velocity-project-dashboard.vercel.app](https://velocity-project-dashboard.vercel.app)
+- ⚙️ **Live Production Backend API (Render)**: [https://velocity-project-dashboard.onrender.com](https://velocity-project-dashboard.onrender.com)
+- 🏠 **Local Frontend UI**: [http://localhost:5173](http://localhost:5173)
+- 🔌 **Local Backend API**: [http://localhost:5001](http://localhost:5001) (or `http://localhost:5000`)
 
 ---
 
