@@ -22,7 +22,18 @@ export function createApp() {
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
 
-  // Health check
+  // Root Status & Health check
+  app.get('/', (req, res) => {
+    res.status(200).json({
+      name: 'Velocity Project Dashboard Backend API',
+      status: 'operational',
+      environment: env.NODE_ENV,
+      health: '/health',
+      frontend: env.CLIENT_URL,
+      version: '1.0.0',
+    });
+  });
+
   app.get('/health', (req, res) => {
     res.status(200).json({ status: 'ok', timestamp: new Date().toISOString() });
   });
