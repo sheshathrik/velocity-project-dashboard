@@ -63,27 +63,27 @@ export const Navbar: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Left: Branding & Nav */}
-          <div className="flex items-center space-x-6">
-            <Link to="/" className="flex items-center space-x-3 group">
-              <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center shadow-lg shadow-cyan-500/20 group-hover:scale-105 transition-transform">
-                <Layers className="w-5 h-5 text-white" />
+          <div className="flex items-center space-x-2 sm:space-x-6">
+            <Link to="/" className="flex items-center space-x-2 sm:space-x-3 group">
+              <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center shadow-lg shadow-cyan-500/20 group-hover:scale-105 transition-transform">
+                <Layers className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
               </div>
               <div>
-                <span className="text-lg font-bold text-white tracking-tight group-hover:text-cyan-400 transition-colors">
+                <span className="text-base sm:text-lg font-bold text-white tracking-tight group-hover:text-cyan-400 transition-colors">
                   VELOCITY
                 </span>
-                <span className="text-[10px] block font-medium uppercase tracking-wider text-slate-400 -mt-1">
+                <span className="text-[9px] sm:text-[10px] hidden xs:block font-medium uppercase tracking-wider text-slate-400 -mt-1">
                   Agency Dashboard
                 </span>
               </div>
             </Link>
 
             {/* Role Badge */}
-            {user && getRoleBadge(user.role)}
+            {user && <div className="hidden md:block">{getRoleBadge(user.role)}</div>}
           </div>
 
           {/* Center/Right: Live Indicators & Actions */}
-          <div className="flex items-center space-x-3 sm:space-x-4">
+          <div className="flex items-center space-x-2 sm:space-x-4">
             {/* WebSocket Presence Indicator */}
             <div className="hidden sm:flex items-center space-x-2 px-3 py-1.5 rounded-lg bg-slate-800/80 border border-slate-700/60 text-xs text-slate-300">
               <span
@@ -103,10 +103,10 @@ export const Navbar: React.FC = () => {
             <div className="relative">
               <button
                 onClick={() => setShowSwitchMenu(!showSwitchMenu)}
-                className="flex items-center space-x-1.5 px-3 py-1.5 rounded-lg bg-cyan-950/60 hover:bg-cyan-900/60 border border-cyan-800/50 text-cyan-300 text-xs font-medium transition-colors"
+                className="flex items-center space-x-1 sm:space-x-1.5 px-2.5 sm:px-3 py-1.5 rounded-lg bg-cyan-950/60 hover:bg-cyan-900/60 border border-cyan-800/50 text-cyan-300 text-xs font-medium transition-colors"
                 title="Switch test accounts easily"
               >
-                <span>Switch Role</span>
+                <span>Switch<span className="hidden sm:inline"> Role</span></span>
                 <ChevronDown className="w-3.5 h-3.5" />
               </button>
 
@@ -152,9 +152,9 @@ export const Navbar: React.FC = () => {
             <div className="relative">
               <button
                 onClick={() => setShowUserMenu(!showUserMenu)}
-                className="flex items-center space-x-2 p-1.5 pl-2.5 pr-2 rounded-lg bg-slate-800 hover:bg-slate-700 transition-colors text-xs text-slate-200"
+                className="flex items-center space-x-1.5 sm:space-x-2 p-1.5 sm:pl-2.5 sm:pr-2 rounded-lg bg-slate-800 hover:bg-slate-700 transition-colors text-xs text-slate-200"
               >
-                <span className="font-medium truncate max-w-[100px] sm:max-w-[140px]">
+                <span className="hidden md:inline font-medium truncate max-w-[120px]">
                   {user?.name}
                 </span>
                 <div className="w-7 h-7 rounded-full bg-cyan-600 flex items-center justify-center text-white font-bold text-xs">
